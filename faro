@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflexiones Espirituales - Fe y Palabra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px 20px 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .admin-access {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .btn-admin-access {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-admin-access:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .stats-dashboard {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .reflection-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .reflection-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .reflection-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        .reflection-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reflection-content {
+            padding: 25px;
+        }
+
+        .reflection-content h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .reflection-text {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .bible-verse {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin: 15px 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        .card-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .card-stat {
+            text-align: center;
+        }
+
+        .card-stat-number {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-download {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #5568d3;
+            transform: scale(1.02);
+        }
+
+        .btn-share {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-share:hover {
+            background: #38a169;
+            transform: scale(1.02);
+        }
+
+        .btn-delete {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c53030;
+        }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Formulario de administración */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: Georgia, serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .image-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .image-upload-area:hover {
+            background: #e9ecef;
+        }
+
+        .image-upload-area.drag-over {
+            background: #e0e7ff;
+            border-color: #5568d3;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .btn-close {
+            width: 100%;
+            background: #718096;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .admin-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .admin-reflection-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: #e53e3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-access {
+                position: static;
+                text-align: center;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="admin-access">
+                <button class="btn-admin-access" onclick="showLoginModal()">🔐
+ Admin</button>
+            </div>
+            <h1>✝ Reflexiones Espirituales ✝</h1>
+            <p> Reflexiones diarias a la luz del Verbo, para que cada paso sea encuentro, verdad y vida</p>
+        </header>
+
+        <!-- Panel de Administración (oculto por defecto) -->
+        <div id="adminPanel" style="display: none;">
+            <div class="admin-section">
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+                <h2>Panel de Administración</h2>
+                <button class="btn btn-download" onclick="showAddReflectionModal()" style="max-width: 300px; margin-bottom: 20px;">
+                    ➕ Agregar Nueva Reflexión
+                </button>
+                
+                <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Reflexiones Publicadas</h3>
+                <div id="adminReflectionsList"></div>
+            </div>
+        </div>
+
+        <div class="stats-dashboard">
+            <h2 style="color: #667eea; margin-bottom: 20px; text-align: center;">📊 Estadísticas Generales</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalViews">0</h3>
+                    <p>👁 Vistas Totales</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalDownloads">0</h3>
+                    <p>⬇ Descargas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalShares">0</h3>
+                    <p>📤 Compartidas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalReflections">0</h3>
+                    <p>📖 Reflexiones</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery" id="gallery">
+            <!-- Las reflexiones se cargarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h3>Acceso Administrador</h3>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" id="adminPassword" placeholder="Ingrese la contraseña">
+            </div>
+            <button class="btn-submit" onclick="login()">Entrar</button>
+            <button class="btn-close" onclick="closeModal('loginModal')">Cancelar</button>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #718096; text-align: center;">
+                Contraseña por defecto: <strong>Zanonis999</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Reflexión -->
+    <div class="modal" id="reflectionModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Nueva Reflexión</h3>
+            <form id="reflectionForm" onsubmit="saveReflection(event)">
+                <div class="form-group">
+                    <label>Título de la Reflexión:</label>
+                    <input type="text" id="refTitle" required placeholder="Ej: El Amor de Dios">
+                </div>
+
+                <div class="form-group">
+                    <label>Versículo Bíblico:</label>
+                    <textarea id="refVerse" required placeholder='Ej: "Porque de tal manera amó Dios al mundo..." - Juan 3:16'></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Reflexión (texto completo):</label>
+                    <textarea id="refText" required placeholder="Escribe tu reflexión aquí..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Emoji/Icono (opcional):</label>
+                    <input type="text" id="refIcon" placeholder="✝" maxlength="2">
+                </div>
+
+                <div class="form-group">
+                    <label>Imagen (opcional):</label>
+                    <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+                        <p>📷 Click para seleccionar una imagen</p>
+                        <p style="font-size: 0.9em; color: #718096; margin-top: 10px;">o arrastra y suelta aquí</p>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
+                        <img id="imagePreview" class="image-preview" style="display: none;">
+                    </div>
+                </div>
+
+                <input type="hidden" id="refId">
+                <button type="submit" class="btn-submit">💾 Guardar Reflexión</button>
+                <button type="button" class="btn-close" onclick="closeModal('reflectionModal')">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Compartir -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h3>¡Reflexión Compartida!</h3>
+            <p>Gracias por compartir esta reflexión espiritual. La Palabra de Dios se ha compartido.</p>
+            <button class="btn-close" onclick="closeModal('shareModal')">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Contraseña de administrador (puedes cambiarla aquí)
+        const ADMIN_PASSWORD = 'dZidereo999';
+        let isAdmin = false;
+        let currentImageData = null;
+
+        // Reflexiones iniciales de ejemplo
+        const defaultReflections = [
+            {
+                id: Date.now() + 1,
+                title: "El Amor de Dios es Eterno",
+                verse: '"Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree no se pierda, mas tenga vida eterna." - Juan 3:16',
+                text: "El amor de Dios trasciende toda comprensión humana. En este pasaje fundamental, vemos revelada la esencia misma del plan divino de salvación. No es un amor condicional ni temporal, sino eterno y absoluto.",
+                icon: "✝",
+                image: null
+            },
+            {
+                id: Date.now() + 2,
+                title: "La Paz que Sobrepasa Todo Entendimiento",
+                verse: '"Y la paz de Dios, que sobrepasa todo entendimiento, guardará vuestros corazones y vuestros pensamientos en Cristo Jesús." - Filipenses 4:7',
+                text: "En medio de las tormentas de la vida, existe una paz que el mundo no puede dar ni quitar. Es la paz de Cristo, que habita en el corazón de quien confía plenamente en Él.",
+                icon: "🕊",
+                image: null
+            }
+        ];
+
+        // Inicializar reflexiones
+        function initReflections() {
+            if (!localStorage.getItem('reflections')) {
+                localStorage.setItem('reflections', JSON.stringify(defaultReflections));
+            }
+        }
+
+        // Obtener reflexiones
+        function getReflections() {
+            return JSON.parse(localStorage.getItem('reflections') || '[]');
+        }
+
+        // Guardar reflexiones
+        function saveReflections(reflections) {
+            localStorage.setItem('reflections', JSON.stringify(reflections));
+        }
+
+        // Inicializar estadísticas
+        function initStats() {
+            if (!localStorage.getItem('reflectionsStats')) {
+                localStorage.setItem('reflectionsStats', JSON.stringify({}));
+            }
+        }
+
+        // Obtener estadísticas
+        function getStats() {
+            return JSON.parse(localStorage.getItem('reflectionsStats') || '{}');
+        }
+
+        // Actualizar estadísticas
+        function updateStat(id, type) {
+            const stats = getStats();
+            if (!stats[id]) {
+                stats[id] = { views: 0, downloads: 0, shares: 0 };
+            }
+            stats[id][type]++;
+            localStorage.setItem('reflectionsStats', JSON.stringify(stats));
+            updateDisplay();
+        }
+
+        // Login
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                closeModal('loginModal');
+                document.getElementById('adminPassword').value = '';
+                updateAdminList();
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+
+        function logout() {
+            isAdmin = false;
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        // Manejo de imágenes
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImageData = e.target.result;
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = currentImageData;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Drag and drop
+        const uploadArea = document.getElementById('uploadArea');
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('drag-over');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('drag-over');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/'))
+ {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentImageData = e.target.result;
+                        const preview = document.getElementById('imagePreview');
+                        preview.src = currentImageData;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Mostrar modal de agregar reflexión
+        function showAddReflectionModal() {
+            document.getElementById('modalTitle').textContent = 'Nueva Reflexión';
+            document.getElementById('reflectionForm').reset();
+            document.getElementById('refId').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            currentImageData = null;
+            document.getElementById('reflectionModal').classList.add('active');
+        }
+
+        // Guardar reflexión
+        function saveReflection(event) {
+            event.preventDefault();
+            
+            const reflections = getReflections();
+            const id = document.getElementById('refId').value;
+            
+            const reflection = {
+                id: id ? parseInt(id) : Date.now(),
+                title: document.getElementById('refTitle').value,
+                verse: document.getElementById('refVerse').value,
+                text: document.getElementById('refText').value,
+                icon: document.getElementById('refIcon').value || '✝',
+                image: currentImageData,
+                date: new Date().toISOString()
+            };
+
+            if (id) {
+                const index = reflections.findIndex(r => r.id === parseInt(id));
+                reflections[index] = reflection;
+            } else {
+                reflections.unshift(reflection);
+            }
+
+            saveReflections(reflections);
+            closeModal('reflectionModal');
+            updateDisplay();
+            updateAdminList();
+            alert('Reflexión guardada exitosamente!');
+        }
+
+        // Eliminar reflexión
+        function deleteReflection(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta reflexión?')) {
+                let reflections = getReflections();
+                reflections = reflections.filter(r => r.id !== id);
+                saveReflections(reflections);
+                updateDisplay();
+                updateAdminList();
+            }
+        }
+
+        // Actualizar lista de administración
+        function updateAdminList() {
+            if (!isAdmin) return;
+            
+            const reflections = getReflections();
+            const list = document.getElementById('adminReflectionsList');
+            
+            list.innerHTML = reflections.map(ref => `
+                <div class="admin-reflection-item">
+                    <div>
+                        <strong>${ref.title}</strong>
+                        <p style="font-size: 0.9em; color: #718096; margin-top: 5px;">
+                            ${new Date(ref.date).toLocaleDateString('es-ES')}
+                        </p>
+                    </div>
+                    <button class="btn btn-delete" onclick="deleteReflection(${ref.id})">
+                        🗑 Eliminar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Renderizar reflexiones
+        function renderReflections() {
+            const gallery = document.getElementById('gallery');
+            const reflections = getReflections();
+            const stats = getStats();
+
+            gallery.innerHTML = reflections.map(ref => {
+                const refStats = stats[ref.id] || { views: 0, downloads: 0, shares: 0 };
+                
+                const imageHtml = ref.image 
+                    ? <img src="${ref.image}" alt="${ref.title}">
+                    : ${ref.icon};
+
+                return `
+                    <div class="reflection-card">
+                        <div class="reflection-image">
+                            ${imageHtml}
+                        </div>
+                        <div class="reflection-content">
+                            <h2>${ref.title}</h2>
+                            <div class="bible-verse">${ref.verse}</div>
+                            <p class="reflection-text">${ref.text}</p>
+                            
+                            <div class="card-stats">
+                                <div class="card-stat">
+                                    <div class="card-stat-number">${refStats.views}</div>
+                                    <div>Vistas</div>
+                                </div>
+                                <div class="card-stat">
+                                    <div class="card-stat-number">${refStats.downloads}</div>
+                                    <div>Descargas</div>
+                                </div>
+                                <div class="card-stat">
+                                    <div class="card-stat-number">${refStats.shares}</div>
+                                    <div>Compartidas</div>
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <button class="btn btn-download" onclick="downloadReflection(${ref.id})">
+                                    ⬇ Descargar
+                                </button>
+                                <button class="btn btn-share" onclick="shareReflection(${ref.id})">
+                                    📤 Compartir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Incrementar vistas al cargar
+            reflections.forEach(ref => {
+                if (!stats[ref.id]) {
+                    updateStat(ref.id, 'views');
+                }
+            });
+        }
+
+        // Actualizar estadísticas totales
+        function updateDisplay() {
+            const reflections = getReflections();
+            const stats = getStats();
+            let totalViews = 0;
+            let totalDownloads = 0;
+            let totalShares = 0;
+
+            Object.values(stats).forEach(stat => {
+                totalViews += stat.views || 0;
+                totalDownloads += stat.downloads || 0;
+                totalShares += stat.shares || 0;
+            });
+
+            document.getElementById('totalViews').textContent = totalViews;
+            document.getElementById('totalDownloads').textContent = totalDownloads;
+            document.getElementById('totalShares').textContent = totalShares;
+            document.getElementById('totalReflections').textContent = reflections.length;
+
+            renderReflections();
+        }
+
+        // Descargar reflexión
+        function downloadReflection(id) {
+            const reflections = getReflections();
+            const reflection = reflections.find(r => r.id === id);
+            if (!reflection) return;
+
+            const content = `
+REFLEXIÓN ESPIRITUAL
+${reflection.title}
+${'='.repeat(50)}
+
+${reflection.verse}
+
+${reflection.text}
+
+---
+Descargado de: Reflexiones Espirituales
+Fecha: ${new Date().toLocaleDateString('es-ES')}
+            `;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = ${reflection.title.replace(/\s+/g, '_')}.txt;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            updateStat(id, 'downloads');
+        }
+
+        // Compartir reflexión
+        function shareReflection(id) {
+            const reflections = getReflections();
+            const reflection = reflections.find(r => r.id === id);
+            if (!reflection) return;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: reflection.title,
+                    text: ${reflection.verse}\n\n${reflection.text.substring(0, 200)}...,
+                    url: window.location.href
+                }).then(() => {
+                    updateStat(id, 'shares');
+                    showModal('shareModal');
+                }).catch(err => console.log('Error compartiendo:', err));
+            } else {
+                const text = ${reflection.title}\n\n${reflection.verse}\n\n${reflection.text};
+                navigator.clipboard.writeText(text).then(() => {
+                    updateStat(id, 'shares');
+                    showModal('shareModal');
+                });
+            }
+        }
+
+        function showModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Inicializar al cargar
+        window.onload = function() {
+            initReflections();
+            initStats();
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>
